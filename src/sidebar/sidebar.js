@@ -15,6 +15,8 @@ class SidebarComponent extends Component {
     this.newNoteBtnClick = this.newNoteBtnClick.bind(this);
     this.uptadeTitle = this.uptadeTitle.bind(this);
     this.newNote = this.newNote.bind(this);
+    this.selectNote = this.selectNote.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
 
   newNoteBtnClick() {
@@ -32,6 +34,14 @@ class SidebarComponent extends Component {
 
   newNote() {
     console.log(this.state)
+  }
+
+  selectNote() {
+    console.log('Select note')
+  }
+
+  deleteNote() {
+    console.log('DELETED')     
   }
 
   render() {
@@ -52,8 +62,7 @@ class SidebarComponent extends Component {
             <input type='text'
               className={classes.newNoteInput}
               placeholder='Enter note title'
-              onKeyUp={(e) => this.uptadeTitle(e.target.value)}
-            />
+              onKeyUp={(e) => this.uptadeTitle(e.target.value)} />
             <Button
               onClick={this.newNote}
               className={classes.newNoteSubmitBtn}>
@@ -62,7 +71,27 @@ class SidebarComponent extends Component {
           </div>
         }
 
-        {/* <SidebarItemComponent /> */}
+        { notes ? 
+          <List>
+            {
+              notes.map((_note, _index) => {
+                return(
+                  <div key={_index}>
+                    <SidebarItemComponent  
+                      _note={_note}
+                      _index={_index}
+                      selectedNoteIndex={selectedNoteIndex}
+                      selectNote={this.selectNote}
+                      deleteNote={this.deleteNote} />
+                    <Divider />
+                  </div>
+                )
+              })
+            }
+          </List>                  
+        :
+          <div>Add a note!</div>
+        }
       </div>
     );
   }
