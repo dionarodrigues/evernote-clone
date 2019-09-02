@@ -14,6 +14,7 @@ class SidebarComponent extends Component {
     };
     this.newNoteBtnClick = this.newNoteBtnClick.bind(this);
     this.uptadeTitle = this.uptadeTitle.bind(this);
+    this.newNote = this.newNote.bind(this);
   }
 
   newNoteBtnClick() {
@@ -24,10 +25,13 @@ class SidebarComponent extends Component {
   }
 
   uptadeTitle(txt) {
-    console.log(txt)
     this.setState({
       title: txt
     })
+  }
+
+  newNote() {
+    console.log(this.state)
   }
 
   render() {
@@ -40,7 +44,7 @@ class SidebarComponent extends Component {
           onClick={this.newNoteBtnClick}
           className={classes.newNoteBtn}>
             { this.state.addingNote ? 'Cancel' : 'Add Note' }
-          </Button>
+        </Button>
 
         {
           this.state.addingNote && 
@@ -50,6 +54,11 @@ class SidebarComponent extends Component {
               placeholder='Enter note title'
               onKeyUp={(e) => this.uptadeTitle(e.target.value)}
             />
+            <Button
+              onClick={this.newNote}
+              className={classes.newNoteSubmitBtn}>
+                Submit Note
+            </Button>
           </div>
         }
 
