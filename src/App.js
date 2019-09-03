@@ -13,6 +13,7 @@ class App extends Component {
       selectedNote: null,
       notes: null
     };
+    this.selectNote = this.selectNote.bind(this);
     this.newNote = this.newNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
   }
@@ -20,6 +21,8 @@ class App extends Component {
   newNote() {
     console.log(this.state)
   }
+
+  selectNote = (note, index) => this.setState({ selectedNoteIndex: index, selectedNote: note });
 
   deleteNote() {
     console.log('DELETED')
@@ -71,8 +74,6 @@ class App extends Component {
         this.setState({ notes: notes })
       });
   }
-
-  selectNote = (note, index) => this.setState({ selectedNoteIndex: index, selectedNote: note });
 
 }
 
