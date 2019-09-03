@@ -12,8 +12,8 @@ class EditorComponent extends Component {
       body: '',
       id: ''
     };
-    this.updateBody = this.updateBody.bind(this);
-    this.update = this.update.bind(this);
+    this.handleNoteUpdate = this.handleNoteUpdate.bind(this);
+    this.updateNote = this.updateNote.bind(this);
   }
 
   getNote() {
@@ -35,12 +35,12 @@ class EditorComponent extends Component {
     }
   }
 
-  async updateBody( val ) {
-    await this.setState({ body: val });
-    this.update();
+  async handleNoteUpdate( content ) {
+    await this.setState({ body: content });
+    this.updateNote();
   }
 
-  update = debounce(() => {
+  updateNote = debounce(() => {
     this.props.noteUpdate(this.state.id, {
       title: this.state.title,
       body: this.state.body
@@ -55,7 +55,7 @@ class EditorComponent extends Component {
       <div className={classes.editorContainer}>
         <ReactQuill 
           value={this.state.body}
-          onChange={this.updateBody}
+          onChange={this.handleNoteUpdate}
         ></ReactQuill>
       </div>
     );
