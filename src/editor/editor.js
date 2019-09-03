@@ -7,31 +7,20 @@ import styles from './styles';
 class EditorComponent extends Component {
   constructor() {
     super();
-    this.state = {
-      text: '',
+    this.state = {      
       title: '',
+      body: '',
       id: ''
     };
     this.updateBody = this.updateBody.bind(this);
     this.update = this.update.bind(this);
   }
 
-  async updateBody( val ) {
-    console.log('Typing');
-    await this.setState({ text: val });
-    this.update();
-  }
-
-  update = debounce(() => {
-    console.log('Updatind Database')
-    // Come back later
-  }, 1500)
-
   getNote() {
     const { selectedNote } = this.props;
-    this.setState({
-      text: selectedNote.body,
+    this.setState({      
       title: selectedNote.title,
+      body: selectedNote.body,
       id: selectedNote.id
     })
   }
@@ -46,6 +35,18 @@ class EditorComponent extends Component {
     }
   }
 
+  async updateBody( val ) {
+    await this.setState({ body: val });
+    this.update();
+  }
+
+  update = debounce(() => {
+    this.props.noteUpdate(this.state.id, {
+      title: this.state.title,
+      body: this.state.body
+    })
+  }, 1500)
+
   render() {
 
     const { classes } = this.props;
@@ -53,7 +54,7 @@ class EditorComponent extends Component {
     return(
       <div className={classes.editorContainer}>
         <ReactQuill 
-          value={this.state.text}
+          value={this.state.body}
           onChange={this.updateBody}
         ></ReactQuill>
       </div>

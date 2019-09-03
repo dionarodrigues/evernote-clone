@@ -13,8 +13,9 @@ class App extends Component {
       selectedNote: null,
       notes: null
     };
-    this.selectNote = this.selectNote.bind(this);
     this.newNote = this.newNote.bind(this);
+    this.selectNote = this.selectNote.bind(this);
+    this.noteUpdate = this.noteUpdate.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
   }
 
@@ -23,6 +24,18 @@ class App extends Component {
   }
 
   selectNote = (note, index) => this.setState({ selectedNoteIndex: index, selectedNote: note });
+
+  noteUpdate = (id, noteObj) => {
+    firebase
+      .firestore()
+      .collection('notes')
+      .doc(id)
+      .update({
+        title: noteObj.title,
+        body: noteObj.body,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
+  }
 
   deleteNote() {
     console.log('DELETED')
@@ -51,6 +64,7 @@ class App extends Component {
           selectedNote &&
           <EditorComponent 
             selectedNote={selectedNote}
+            noteUpdate={this.noteUpdate}
             selectedNoteIndex={selectedNoteIndex}
             notes={notes}
           />
