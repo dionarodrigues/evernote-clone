@@ -7,18 +7,20 @@ import styles from './styles';
 class EditorComponent extends Component {
   constructor() {
     super();
-    this.state = {      
+    this.state = {
       title: '',
       body: '',
       id: ''
     };
-    this.handleNoteUpdate = this.handleNoteUpdate.bind(this);
+    
     this.updateNote = this.updateNote.bind(this);
+    this.updateBody = this.updateBody.bind(this);
+    this.updateTitle = this.updateTitle.bind(this);
   }
 
   getNote() {
     const { selectedNote } = this.props;
-    this.setState({      
+    this.setState({
       title: selectedNote.title,
       body: selectedNote.body,
       id: selectedNote.id
@@ -30,13 +32,18 @@ class EditorComponent extends Component {
   }
 
   componentDidUpdate = () => {
-    if( this.props.selectedNote.id !== this.state.id ) {
+    if (this.props.selectedNote.id !== this.state.id) {
       this.getNote();
     }
   }
 
-  async handleNoteUpdate( content ) {
+  async updateBody(content) {
     await this.setState({ body: content });
+    this.updateNote();
+  }  
+
+  async updateTitle(title) {
+    await this.setState({ title: title });
     this.updateNote();
   }
 
@@ -45,22 +52,28 @@ class EditorComponent extends Component {
       title: this.state.title,
       body: this.state.body
     })
-  }, 1500)
+  }, 1500);
 
   render() {
 
     const { classes } = this.props;
 
-    return(
+    return (
       <div className={classes.editorContainer}>
-        <ReactQuill 
+        <input
+          className={classes.titleInput}
+          placeholder='Note title...'
+          value={this.state.title ? this.state.title : ''}
+          onChange={(e) => this.updateTitle(e.target.value)}>
+        </input>
+        <ReactQuill
           value={this.state.body}
-          onChange={this.handleNoteUpdate}
+          onChange={this.updateBody}
         ></ReactQuill>
       </div>
     );
   }
-  
+
 }
 
 export default withStyles(styles)(EditorComponent);

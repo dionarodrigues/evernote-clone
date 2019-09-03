@@ -52,7 +52,7 @@ class App extends Component {
     this.setState({ selectedNote: this.state.notes[newNoteIndex], selectedNoteIndex: newNoteIndex });
   }
 
-  selectNote = (note, index) => this.setState({ selectedNoteIndex: index, selectedNote: note });
+  selectNote = (note, index) => this.setState({ selectedNote: note, selectedNoteIndex: index });
 
   noteUpdate = (id, noteObj) => {
     firebase
