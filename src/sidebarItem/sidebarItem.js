@@ -9,15 +9,13 @@ import styles from './styles';
 class SidebarItemComponent extends Component {
   constructor() {
     super();
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    this.handleSelectNote = this.handleSelectNote.bind(this);
+    this.handleDeleteNote = this.handleDeleteNote.bind(this);
   }
 
-  handleSelect() {
-    this.props.selectNote(this.props_note, this.props_index)
-  }
+  handleSelectNote = (note, index) => this.props.selectNote(note, index);
 
-  handleDelete() {
+  handleDeleteNote() {
     if(window.confirm(`Are you sure you want to delete: ${this.props._note.title}`)) {
       this.props.deleteNote(this.props._note)
     }  
@@ -25,7 +23,7 @@ class SidebarItemComponent extends Component {
 
   render() {
 
-    const { classes, _note, _index, selectedNoteIndex, selectNote, deleteNote } = this.props;
+    const { classes, _note, _index, selectedNoteIndex } = this.props;
 
     return (
       <div key={_index}>
@@ -35,17 +33,18 @@ class SidebarItemComponent extends Component {
           alignItems='flex-start'>
           <div 
             className={classes.textSection}
-            onClick={this.handleSelect}>
+            onClick={() => this.handleSelectNote(_note, _index)}>
               <ListItemText
                 primary={_note.title}
                 secondary={removeHTMLTags(_note.body.substring(0, 30)) + '...'} />
           </div>
-          <Button onClick={this.handleDelete}
+          <Button onClick={this.handleDeleteNote}
             className={classes.deleteIcon}>Delete</Button>
         </ListItem>
       </div>
     );
   }
+
 }
 
 export default withStyles(styles)(SidebarItemComponent);

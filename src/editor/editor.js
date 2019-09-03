@@ -27,6 +27,25 @@ class EditorComponent extends Component {
     // Come back later
   }, 1500)
 
+  getNote() {
+    const { selectedNote } = this.props;
+    this.setState({
+      text: selectedNote.body,
+      title: selectedNote.title,
+      id: selectedNote.id
+    })
+  }
+
+  componentDidMount = () => {
+    this.getNote();
+  }
+
+  componentDidUpdate = () => {
+    if( this.props.selectedNote.id !== this.state.id ) {
+      this.getNote();
+    }
+  }
+
   render() {
 
     const { classes } = this.props;
@@ -40,6 +59,7 @@ class EditorComponent extends Component {
       </div>
     );
   }
+  
 }
 
 export default withStyles(styles)(EditorComponent);

@@ -15,8 +15,8 @@ class SidebarComponent extends Component {
     this.newNoteBtnClick = this.newNoteBtnClick.bind(this);
     this.uptadeTitle = this.uptadeTitle.bind(this);
     this.newNote = this.newNote.bind(this);
-    this.selectNote = this.selectNote.bind(this);
-    this.deleteNote = this.deleteNote.bind(this);
+    this.handleSelectNote = this.handleSelectNote.bind(this);
+    this.handleDeleteNote = this.handleDeleteNote.bind(this);
   }
 
   newNoteBtnClick() {
@@ -36,13 +36,8 @@ class SidebarComponent extends Component {
     console.log(this.state)
   }
 
-  selectNote() {
-    console.log('Select note')
-  }
-
-  deleteNote() {
-    console.log('DELETED')     
-  }
+  handleSelectNote = (note, index) => this.props.selectNote(note, index);
+  handleDeleteNote = (note) => this.props.deleteNote(note);
 
   render() {
 
@@ -81,8 +76,8 @@ class SidebarComponent extends Component {
                       _note={_note}
                       _index={_index}
                       selectedNoteIndex={selectedNoteIndex}
-                      selectNote={this.selectNote}
-                      deleteNote={this.deleteNote} />
+                      selectNote={this.handleSelectNote}
+                      deleteNote={this.handleDeleteNote} />
                     <Divider />
                   </div>
                 )
@@ -95,6 +90,7 @@ class SidebarComponent extends Component {
       </div>
     );
   }
+  
 }
 
 export default withStyles(styles)(SidebarComponent);

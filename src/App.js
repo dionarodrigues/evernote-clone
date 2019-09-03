@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import SidebarComponent from './sidebar/sidebar'
 import EditorComponent from './editor/editor'
@@ -9,26 +9,56 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      selectedNodeIndex: null,
+      selectedNoteIndex: null,
       selectedNote: null,
       notes: null
-    }
+    };
+    this.newNote = this.newNote.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
 
-  render(){
-    return(
+  newNote() {
+    console.log(this.state)
+  }
+
+  deleteNote() {
+    console.log('DELETED')
+  }
+
+  render() {
+
+    const { 
+      notes, 
+      selectedNoteIndex,
+      selectedNote,
+      newNote 
+    } = this.state;
+
+    return (
       <div className="app-container">
-        <SidebarComponent  
-          notes={this.state.notes}
-          selectedNoteIndex={this.state.selectedNoteIndex}
+        <SidebarComponent
+          notes={notes}
+          selectedNoteIndex={selectedNoteIndex}
+          selectNote={this.selectNote}
+          deleteNote={this.deleteNote}
+          newNote={newNote}
         />
-        <EditorComponent />
+
+        {
+          selectedNote &&
+          <EditorComponent 
+            selectedNote={selectedNote}
+            selectedNoteIndex={selectedNoteIndex}
+            notes={notes}
+          />
+        }
+        
       </div>
     )
   }
 
   componentDidMount = () => {
-    firebase 
+    firebase
       .firestore()
       .collection('notes')
       .onSnapshot(serverUpdate => {
@@ -41,6 +71,8 @@ class App extends Component {
         this.setState({ notes: notes })
       });
   }
+
+  selectNote = (note, index) => this.setState({ selectedNoteIndex: index, selectedNote: note });
 
 }
 
