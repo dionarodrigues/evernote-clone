@@ -29,7 +29,6 @@ class App extends Component {
           data['id'] = _doc.id;
           return data;
         });
-        console.log(notes)
         this.setState({ notes: notes })
       });
   }
@@ -67,8 +66,22 @@ class App extends Component {
       })
   }
 
-  deleteNote() {
-    console.log('DELETED')
+  deleteNote = async (note) => {
+    const noteIndex = this.state.notes.indexOf(note);
+    await this.setState({ notes: this.state.notes.filter(_note => _note !== note) });
+    if (this.state.selectedNoteIndex === noteIndex) {
+      this.setState({ selectedNoteIndex: null, selectedNote: null });
+    } else {
+      this.state.notes.length > 1 ?
+      this.selectNote(this.state.notes[this.state.selectedNoteIndex - 1], this.state.selectedNoteIndex - 1) :
+      this.setState({ selectedNoteIndex: null, selectedNote: null });
+    }
+
+    firebase
+      .firestore()
+      .collection('notes')
+      .doc(note.id)
+      .delete();
   }
 
   render() {
@@ -76,8 +89,7 @@ class App extends Component {
     const {
       notes,
       selectedNoteIndex,
-      selectedNote,
-      newNote
+      selectedNote
     } = this.state;
 
     return (
