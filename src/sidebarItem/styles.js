@@ -3,7 +3,8 @@ const styles = theme => ({
     cursor: 'pointer'
   },
   textSection: {
-    maxWidth: '85%'
+    width: '100%',
+    paddingRight: '65px'
   },  
   textSmall: {
     '& > p': {
