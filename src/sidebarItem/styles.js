@@ -5,6 +5,11 @@ const styles = theme => ({
   textSection: {
     maxWidth: '85%'
   },  
+  textSmall: {
+    '& > p': {
+      fontSize: '70%' 
+    }
+  },
   deleteIcon: {
     position: 'absolute',
     right: '5px',
