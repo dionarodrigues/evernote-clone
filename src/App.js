@@ -23,6 +23,7 @@ class App extends Component {
     firebase
       .firestore()
       .collection('notes')
+      .orderBy('timestamp', 'desc')
       .onSnapshot(serverUpdate => {
         const notes = serverUpdate.docs.map(_doc => {
           const data = _doc.data()
@@ -56,15 +57,20 @@ class App extends Component {
   selectNote = (note, index) => this.setState({ selectedNote: note, selectedNoteIndex: index });
 
   noteUpdate = (id, noteObj) => {
-    firebase
-      .firestore()
-      .collection('notes')
-      .doc(id)
-      .update({
-        title: noteObj.title,
-        body: noteObj.body,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      })
+    if(noteObj.body !== this.state.selectedNote.body || noteObj.title !== this.state.selectedNote.title) {
+
+      firebase
+        .firestore()
+        .collection('notes')
+        .doc(id)
+        .update({
+          title: noteObj.title,
+          body: noteObj.body,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        })
+      this.setState({ selectedNoteIndex: 0 })
+
+    }    
   }
 
   deleteNote = async (note) => {
