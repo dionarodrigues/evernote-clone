@@ -30,6 +30,7 @@ class App extends Component {
           return data;
         });
         this.setState({ notes: notes })
+        if(!this.state.selectedNote) this.setState({ selectedNote: notes[0], selectedNoteIndex: 0 })
       });
   }
 
@@ -69,8 +70,8 @@ class App extends Component {
   deleteNote = async (note) => {
     const noteIndex = this.state.notes.indexOf(note);
     await this.setState({ notes: this.state.notes.filter(_note => _note !== note) });
-    if (this.state.selectedNoteIndex === noteIndex) {
-      this.setState({ selectedNoteIndex: null, selectedNote: null });
+    if (this.state.selectedNoteIndex === noteIndex && noteIndex === 0) {      
+      this.setState({ selectedNoteIndex: null, selectedNote: null });    
     } else {
       this.state.notes.length > 1 ?
       this.selectNote(this.state.notes[this.state.selectedNoteIndex - 1], this.state.selectedNoteIndex - 1) :
