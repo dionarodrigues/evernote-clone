@@ -41,7 +41,9 @@ class SidebarComponent extends Component {
     this.props.selectNote(note, index);
   }
   
-  handleDeleteNote = (note) => this.props.deleteNote(note);
+  handleDeleteNote(note) {
+    this.props.deleteNote(note);
+  }
 
   render() {
 
