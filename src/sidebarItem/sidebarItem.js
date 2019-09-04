@@ -25,8 +25,11 @@ class SidebarItemComponent extends Component {
 
     const { classes, _note, _index, selectedNoteIndex } = this.props;
 
-    const fullDate = _note.timestamp.toDate();
-    const date = `${fullDate.toDateString()} ${fullDate.getHours()}:${fullDate.getMinutes()}:${fullDate.getSeconds()}`;
+    const fullDate = _note.timestamp ? _note.timestamp.toDate() : null;
+    let date;
+    if( _note.timestamp ) {      
+      date = `${fullDate.toDateString()} ${fullDate.getHours()}:${fullDate.getMinutes()}:${fullDate.getSeconds()}`;
+    }   
 
     return (
       <div key={_index}>
@@ -41,9 +44,9 @@ class SidebarItemComponent extends Component {
               <ListItemText
                 primary={_note.title}
                 secondary={removeHTMLTags(_note.body.substring(0, 30)) + '...'} />
-              <ListItemText
+              { date && <ListItemText
                 secondary={date} 
-                className={classes.textSmall} />
+                className={classes.textSmall} /> }
           </div>
           <Button onClick={this.handleDeleteNote}
             className={classes.deleteIcon}>Delete</Button>
