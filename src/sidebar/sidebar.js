@@ -37,7 +37,9 @@ class SidebarComponent extends Component {
     this.setState({ addingNote: false, title: null })
   }
 
-  handleSelectNote = (note, index) => this.props.selectNote(note, index);
+  handleSelectNote(note, index) {
+    this.props.selectNote(note, index);
+  }
   
   handleDeleteNote = (note) => this.props.deleteNote(note);
 

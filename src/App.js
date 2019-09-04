@@ -68,21 +68,26 @@ class App extends Component {
   }
 
   deleteNote = async (note) => {
-    const noteIndex = this.state.notes.indexOf(note);
-    await this.setState({ notes: this.state.notes.filter(_note => _note !== note) });
-    if (this.state.selectedNoteIndex === noteIndex && noteIndex === 0) {      
-      this.setState({ selectedNoteIndex: null, selectedNote: null });    
-    } else {
-      this.state.notes.length > 1 ?
-      this.selectNote(this.state.notes[this.state.selectedNoteIndex - 1], this.state.selectedNoteIndex - 1) :
-      this.setState({ selectedNoteIndex: null, selectedNote: null });
-    }
+    if(window.confirm(`Are you sure you want to delete: ${note.title}`)) {
+      
+      const noteIndex = this.state.notes.indexOf(note);
+      await this.setState({ notes: this.state.notes.filter(_note => _note !== note) });
+      
+      if ((this.state.selectedNoteIndex === noteIndex && noteIndex === 0) || this.state.notes.length <= 1 ) {      
+        this.setState({ selectedNoteIndex: null, selectedNote: null });    
+      } 
 
-    firebase
-      .firestore()
-      .collection('notes')
-      .doc(note.id)
-      .delete();
+      if(this.state.notes.length > 1 && this.state.selectedNoteIndex > noteIndex) {
+        this.selectNote(this.state.notes[this.state.selectedNoteIndex - 1], this.state.selectedNoteIndex - 1)
+      }
+
+      firebase
+        .firestore()
+        .collection('notes')
+        .doc(note.id)
+        .delete();
+      
+    }     
   }
 
   render() {

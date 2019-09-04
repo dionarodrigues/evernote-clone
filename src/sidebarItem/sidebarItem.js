@@ -13,12 +13,12 @@ class SidebarItemComponent extends Component {
     this.handleDeleteNote = this.handleDeleteNote.bind(this);
   }
 
-  handleSelectNote = (note, index) => this.props.selectNote(note, index);
+  handleSelectNote(note, index) {
+    this.props.selectNote(note, index);
+  }
 
   handleDeleteNote() {
-    if(window.confirm(`Are you sure you want to delete: ${this.props._note.title}`)) {
-      this.props.deleteNote(this.props._note)
-    }  
+    this.props.deleteNote(this.props._note) 
   }
 
   render() {
